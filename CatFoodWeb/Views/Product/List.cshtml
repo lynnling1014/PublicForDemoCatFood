@@ -1,0 +1,100 @@
+﻿@model IEnumerable<CatFoodWeb.Models.classProduct>
+
+@{
+    ViewBag.Title = "List";
+}
+<ul class="breadcrumb">
+    <li><a href="~/Home/Index">首頁</a></li>
+    <li><a href="~/Product/Index">商品列表</a></li>
+</ul>
+<h2>商品列表</h2>
+<div style="float:right; margin:5px;">
+    <button class="btn btn-outline-secondary" onclick="location.href='@Url.Action("Create", "Product")'">新增商品</button>
+</div>
+<p>
+    
+</p>
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fProductID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fProductDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fCategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fSupplierName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fUnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fNewPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fQtyPerUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fInStore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fPhoto)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.fActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fProductID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fProductDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fCategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fSupplierName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fUnitPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fNewPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fQtyPerUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fInStore)
+        </td>
+        <td>
+            <img src="~/Content/images/@item.fPhoto" name="fPhoto" alt="商品圖片"/>
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.fActive)
+        </td>
+        <td>
+            @Html.ActionLink("修改", "Create", new { id=item.fProductID }) 
+            @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+        </td>
+    </tr>
+}
+
+</table>

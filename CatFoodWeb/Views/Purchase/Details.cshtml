@@ -1,0 +1,71 @@
+﻿@model CatFoodWeb.Models.ViewModel.PurchaseViewModel
+
+@{
+    ViewBag.Title = "Details";
+    int num = 0;
+}
+    <ul class="breadcrumb">
+        <li><a href="~/Home/Index">首頁</a></li>
+        <li><a href="~/Purchase/List">進貨列表</a></li>
+        <li><a href="~/Purchase/List/@Model.fOrderID">詳細訂單</a></li>
+    </ul>
+
+<div>
+    <h4>詳細訂單</h4>
+    <div style="margin:30px 0px 30px 0px">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>訂單編號：@Model.fOrderID</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>訂單小計：@Model.fCount</td>
+                    <td>運費：@Model.fTransferFee</td>
+                    <td>訂單總計：@Model.fTotalPrice</td>
+                </tr>
+                <tr>
+                    <td>到貨日期：@Model.fArriveDate</td>
+                    <td>是否到貨：@Model.fArrive</td>
+                    <td>備註：@Model.fNote</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+    <hr />
+
+    <div style="margin:30px 0px 30px 0px">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">商品ID</th>
+                    <th scope="col">商品名稱</th>
+                    <th scope="col">購買數量</th>
+                    <th scope="col">單價</th>
+                    <th scope="col">費用</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.details)
+                {
+                    num++;
+                    <tr>
+                        <th scope="row">@num</th>
+                        <td>@item.productID</td>
+                        <td>@item.productName</td>
+                        <td>@item.pQty</td>
+                        <td>@item.buyPrice</td>
+                        <td>@(item.buyPrice*item.pQty)</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("編輯", "PurchaseProduct", new { id = Model.fOrderID }) |
+    @Html.ActionLink("返回", "List")
+</p>

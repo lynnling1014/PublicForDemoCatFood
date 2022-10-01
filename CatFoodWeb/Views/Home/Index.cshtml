@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<div class="row">
+    <div class="col-md-4 aaa">
+        <h2>食材進貨</h2>
+        <p>
+            每月團購貓貓食材囉
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("List", "Purchase")">Go &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>品項管理</h2>
+        <p>食材品項清單及內容管理</p>
+        <p><a class="btn btn-default" href="@Url.Action("List", "Product")">Go &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>食材使用</h2>
+        <p>製作使用消耗食材登記</p>
+        <p><a class="btn btn-default" href="">Go &raquo;</a></p>
+    </div>
+</div>

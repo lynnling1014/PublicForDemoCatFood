@@ -1,0 +1,78 @@
+﻿@model IEnumerable<CatFoodWeb.Models.classOrder>
+
+@{
+    ViewBag.Title = "List";
+}
+<ul class="breadcrumb">
+    <li><a href="~/Home/Index">首頁</a></li>
+    <li><a href="~/Purchase/List">製作使用列表</a></li>
+</ul>
+<h2>製作使用列表</h2>
+<div style="float:right; margin:5px;">
+    <button class="btn btn-outline-secondary" onclick="location.href='@Url.Action("PurchaseProduct", "Purchase")'">新增製作</button>
+</div>
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fOrderID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fArriveDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fInOrOut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fTransferFee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fTotalPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fArrive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fNote)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fOrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fArriveDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fInOrOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fTransferFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fTotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fArrive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fNote)
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" onclick="javascript:window.location='@Url.Action("PurchaseProduct", "Purchase",new { id=item.fOrderID })'">編輯</button>
+                <button type="button" class="btn btn-secondary" onclick="javascript:window.location='@Url.Action("Details", "Purchase",new { id=item.fOrderID })'">詳細</button>
+            </td>
+        </tr>
+    }
+
+</table>
+

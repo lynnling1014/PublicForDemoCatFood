@@ -1,0 +1,465 @@
+﻿@model CatFoodWeb.Models.ViewModel.PurchaseViewModel
+
+@{
+    ViewBag.Title = "PurchaseProduct";
+}
+<style>
+    .my_noBoneBg {
+        background-color: #cff09e;
+        color: #3b8686;
+    }
+
+    .my_boneBg {
+        background-color: #a8dba8;
+        color: #3b8686;
+    }
+
+    .my_heartBg {
+        background-color: #79bd9a;
+        color: #3b8686;
+    }
+
+    .my_liverBg {
+        background-color: #3b8686;
+        color: #cff09e;
+    }
+</style>
+<h2>訂購商品</h2>
+@using (Html.BeginForm("Order", "Purchase", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-12 col-sm-6 col-md-8">
+                <h3>訂購專區</h3>
+                <div class="accordion" id="accordionExample">
+                    <!-- #region meat without bone -->
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left my_noBoneBg" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    無骨肉
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <table class="table table-striped noBoneTable">
+                                    <thead>
+                                        <tr>
+                                            <th>商品名稱</th>
+                                            <th>原價</th>
+                                            <th>特價</th>
+                                            <th>重量</th>
+                                            <th>購買數量</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.fCategoryID == 2 && item.fActive == "上架")
+                                            {
+                                        <tr>
+                                            <td>@item.fProductName</td>
+                                            <td>@item.fUnitPrice</td>
+                                            <td>@item.fNewPrice</td>
+                                            <td>@item.fQtyPerUnit</td>
+                                            @if (Model.details != null)
+                                            {
+                                                var q = (Model.details).Where(x => x.productID == item.fProductID).Select(a => a.pQty).ToArray();
+                                                if (q.Length > 0)
+                                                {
+                                                    int amount = q[0];
+                                                    <td><input type="number" value="@(amount)" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><input type="number" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td><input type="number" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                            }
+                                        </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- #endregion -->
+                    <!-- #region meat with bone -->
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed my_boneBg" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    帶骨肉
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <table class="table table-striped boneTable">
+                                    <thead>
+                                        <tr>
+                                            <th>商品名稱</th>
+                                            <th>原價</th>
+                                            <th>特價</th>
+                                            <th>重量</th>
+                                            <th>購買數量</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.fCategoryID == 3 && item.fActive == "上架")
+                                            {
+                                        <tr>
+                                            <td>@item.fProductName</td>
+                                            <td>@item.fUnitPrice</td>
+                                            <td>@item.fNewPrice</td>
+                                            <td>@item.fQtyPerUnit</td>
+                                            @if (Model.details != null)
+                                            {
+                                                var q = (Model.details).Where(x => x.productID == item.fProductID).Select(a => a.pQty).ToArray();
+                                                if (q.Length > 0)
+                                                {
+                                                    int amount = q[0];
+                                                    <td><input type="number" value="@(amount)" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><input type="number" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td><input type="number" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                            }
+                                        </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- #endregion -->
+                    <!-- #region heart -->
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed my_heartBg" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    心臟
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <table class="table table-striped heartTable">
+                                    <thead>
+                                        <tr>
+                                            <th>商品名稱</th>
+                                            <th>原價</th>
+                                            <th>特價</th>
+                                            <th>重量</th>
+                                            <th>購買數量</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.fCategoryID == 4 && item.fActive == "上架")
+                                            {
+                                        <tr>
+                                            <td>@item.fProductName</td>
+                                            <td>@item.fUnitPrice</td>
+                                            <td>@item.fNewPrice</td>
+                                            <td>@item.fQtyPerUnit</td>
+                                            @if (Model.details != null)
+                                            {
+                                                var q = (Model.details).Where(x => x.productID == item.fProductID).Select(a => a.pQty).ToArray();
+                                                if (q.Length > 0)
+                                                {
+                                                    int amount = q[0];
+                                                    <td><input type="number" value="@(amount)" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><input type="number" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td><input type="number" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                            }
+                                        </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- #endregion -->
+                    <!-- #region liver -->
+                    <div class="card">
+                        <div class="card-header" id="headingFour">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed my_liverBg" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    肝臟
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <table class="table table-striped liverTable">
+                                    <thead>
+                                        <tr>
+                                            <th>商品名稱</th>
+                                            <th>原價</th>
+                                            <th>特價</th>
+                                            <th>重量</th>
+                                            <th>購買數量</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.fCategoryID == 5 && item.fActive == "上架")
+                                            {
+                                        <tr>
+                                            <td>@item.fProductName</td>
+                                            <td>@item.fUnitPrice</td>
+                                            <td>@item.fNewPrice</td>
+                                            <td>@item.fQtyPerUnit</td>
+                                            @if (Model.details!=null)
+                                            {
+                                                var q = (Model.details).Where(x => x.productID == item.fProductID).Select(a => a.pQty).ToArray();
+                                                if (q.Length > 0)
+                                                {
+                                                    int amount = q[0];
+                                                    <td><input type="number" value="@(amount)" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><input type="number" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td><input type="number" name="Qty" data-pID="@item.fProductID" data-pCategory="@item.fCategoryID" onchange="Count(0)" /></td>
+                                            }
+                                        </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- #endregion -->
+                </div>
+            </div>
+            <div class="col-6 col-md-4" style="position:relative;">
+                <div style="position:fixed;">
+                    <h3>需求量</h3>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>種類</th>
+                            <th>需求量</th>
+                            <th>及時需求量</th>
+                        </tr>
+                        @foreach (var item in ViewBag.category)
+                        {
+                            <tr>
+                                <td>@item.fCategoryName</td>
+                                <td id="SuggestQty_@item.fCategoryID">@item.fSuggestOrderQty</td>
+                                <td id="needQty_@item.fCategoryID"></td>
+                                <td id="InStorageWeight_@item.fCategoryID" style="display:none">@item.fTotal</td>
+                            </tr>
+                        }
+                    </table>
+
+                    <h3>訂單金額</h3>
+                    <table class="table table-striped">
+                        @if ((Model.details).Count > 0)
+                        {
+                            <tr>
+                                <td>小計</td>
+                                <td id="amount">@Model.fCount</td>
+                            </tr>
+                            <tr>
+                                <td>運費</td>
+                                <td><input type="number" name="transferFee" id="transferFee" onblur="CountTotal(this.value)" value="@Model.fTransferFee" /></td>
+                            </tr>
+                            <tr>
+                                <td>金額總計</td>
+                                <td id="Total">@Model.fTotalPrice</td>
+                            </tr>
+                            <tr>
+                                <td>到貨日期</td>
+                                <td><input type="date" name="arriveDate" id="arriveDate" value="@Model.fArriveDate" /></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>備註</td>
+                                <td><input type="text" name="note" id="note" value="@Model.fNote" /></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>小計</td>
+                                <td id="amount"></td>
+                            </tr>
+                            <tr>
+                                <td>運費</td>
+                                <td><input type="number" name="transferFee" id="transferFee" onblur="CountTotal(this.value)" /></td>
+                            </tr>
+                            <tr>
+                                <td>金額總計</td>
+                                <td id="Total"></td>
+                            </tr>
+                            <tr>
+                                <td>到貨日期</td>
+                                <td><input type="date" name="arriveDate" id="arriveDate" /></td>
+                            </tr>
+                            <tr>
+                                <td>備註</td>
+                                <td><input type="text" name="note" id="note" /></td>
+                            </tr>
+                        }
+                    </table>
+                    <div>
+                        <button type="button" class="btn btn-outline-secondary" onclick="Count(1)">送出</button>
+                        @*<input type="submit" value="送出" class="btn btn-default" />*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    <div>
+        @Html.ActionLink("返回", "List")
+    </div>
+
+    <script>
+        var needQty_2;
+        var needQty_3;
+        var needQty_4;
+        var needQty_5;
+
+        $(function () {
+            CountNeedWeight();
+            needQty_2 = $("#needQty_2").html();
+            needQty_3 = $("#needQty_3").html();
+            needQty_4 = $("#needQty_4").html();
+            needQty_5 = $("#needQty_5").html();
+        });
+
+        //計算及時需求量
+        function CountNeedWeight() {
+            var SuggestQty_2 = parseInt($("#SuggestQty_2").html());
+            var SuggestQty_3 = parseInt($("#SuggestQty_3").html());
+            var SuggestQty_4 = parseInt($("#SuggestQty_4").html());
+            var SuggestQty_5 = parseInt($("#SuggestQty_5").html());
+            var InStorageWeight_2 = parseInt($("#InStorageWeight_2").html());
+            var InStorageWeight_3 = parseInt($("#InStorageWeight_3").html());
+            var InStorageWeight_4 = parseInt($("#InStorageWeight_4").html());
+            var InStorageWeight_5 = parseInt($("#InStorageWeight_5").html());
+            $("#needQty_2").html(SuggestQty_2 - InStorageWeight_2);
+            $("#needQty_3").html(SuggestQty_3 - InStorageWeight_3);
+            $("#needQty_4").html(SuggestQty_4 - InStorageWeight_4);
+            $("#needQty_5").html(SuggestQty_5 - InStorageWeight_5);
+        }
+
+    //值改變時計算金額及重量
+    //巡迴所有Qty，有值就存起來(pID、Qty)=> Dictionary
+    //call ajax傳到後端運算金額跟重量 再回傳到前端
+    //type: 0=計算重量金額 , 1=送出訂單
+    function Count(type) {
+        var OrderData = {};
+        var OrderArray = [];
+        var Order = {};
+        $("[name='Qty']").each(function (i) {
+            var getQty = $(this).val();
+            var getID = $(this).data('pid');
+            var getCategoryID = $(this).data('pcategory');
+            if (getQty != "") {
+                OrderData = {
+                    pID: getID,
+                    pQty: getQty,
+                    pCategoryID: getCategoryID
+                }
+                OrderArray.push(OrderData);
+                console.log(OrderArray);
+            }
+        });
+        var viewData = JSON.stringify(OrderArray);
+        var transferFee = $('#transferFee').val();
+        //-------------到貨日 Note欄位---------------
+        if (type == '1') {
+            var arriveDate = $('#arriveDate').val();
+            var note = $('#note').val();
+            if (transferFee=='') {
+                alert("請填寫運費!");
+                return false;
+            } else if (arriveDate=='') {
+                alert("請填寫到貨日期!");
+                return false;
+            } else {
+                Order = {
+                    arriveDate: arriveDate,
+                    transferFee: transferFee,
+                    note: note
+                }
+                var orderMemo = JSON.stringify(Order);
+            }
+        }
+        
+            
+        
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Counting", "Purchase")",
+            dataType: "json",
+            data: { data: viewData, type: type, strOrderData: orderMemo},
+            success: function (obj) {
+                if (obj.resultcode == 0) {
+                    if (type == 0) {
+                        //alert("成功");
+                        //計算重量:取SuggestQty_ID 與obj同類別相減
+                        $("#needQty_2").html(needQty_2 - obj.NoBoneWeight);
+                        $("#needQty_3").html(needQty_3 - obj.BoneWeight);
+                        //console.log("obj.BoneWeight=" + obj.BoneWeight);
+                        //console.log($("#needQty_3").html())
+                        $("#needQty_4").html(needQty_4 - obj.HeartWeight);
+                        $("#needQty_5").html(needQty_5 - obj.LiverWeight);
+                        //顯示金額
+                        $("#amount").html(obj.TotalPrice);
+                    }
+                    if (type == 1) {
+                        location.href = '@Url.Action("List", "Purchase")';
+                    }
+
+
+                } else {
+                    alert(obj.resultmessage);
+                }
+                //console.log(obj);
+            }
+        });
+    }
+    //計算總金額 : 小計+運費
+    function CountTotal(price) {
+        var amount = parseInt($("#amount").html());
+        var transferFee = parseInt(price);
+        $("#Total").html(amount + transferFee);
+    }
+    </script>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
